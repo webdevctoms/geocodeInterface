@@ -6,11 +6,12 @@ function App(options){
 	this.stateInput = document.getElementById(options.stateId);
 	this.stateShortInput = document.getElementById(options.stateShortId);
 	this.cityInput = document.getElementById(options.cityId);
+	//pass in the callback you want called when using the getGeoData method
 	this.geo = new GeoCodeInterface({
 		callback:this.updateInputs
 	});
-
-	this.geo.initKeyBoardListener(this.postCodeInput);
+	//this method is not necessary it just allwos you to easily attach the keyboard listener that I am using to any input you want
+	this.initPostalListener(this.postCodeInput);
 	this.initKeyBoardListener(this.apiKeyInput);
 }
 
@@ -25,12 +26,35 @@ App.prototype.initKeyBoardListener = function(input) {
 		this.geo.setAPIKey(apiKey);
 	}.bind(this),false);
 };
+//Follow this structure to avoid issues with the scope of the 'this' variable
+App.prototype.initPostalListener = function(input) {
+	input.addEventListener("keyup",function(e){
+		console.log(e.currentTarget.value);
+		clearTimeout(this.timeout);
+		var postalCode = e.currentTarget.value;
+		var apiKey = this.apiKeyInput.value
+		this.timeout = setTimeout(function(){ 
+			this.geo.getGeoData(postalCode,apiKey,this.updateInputs)
 
-App.prototype.updateInputs = function(data) {
-	console.log('data:',data);
+			.then((data) => {
+				this.updateInputs(data);
+			});
+		}.bind(this), 3000);
+	}.bind(this),false);
 };
 
-let app = new App({
+App.prototype.updateInputs = function(data) {
+	console.log('data:',data,this.cityInput);
+	//get the address components from the results
+	var address_components = data.results[0].address_components;
+	//get the city from the results
+	var cityNameObject = this.geo.getAddressData(address_components,'city');
+	//set the address name to your input of choice
+	this.cityInput.value = cityNameObject.long_name;
+	//get the 
+};
+
+var app = new App({
 	apiKeyId:'api-key',
 	postCodeId:'postal-code',
 	countryId:'country',
