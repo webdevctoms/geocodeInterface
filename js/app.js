@@ -8,9 +8,7 @@ function App(options){
 	this.cityInput = document.getElementById(options.cityId);
 	this.exampleButton = document.getElementById(options.exampleButtonId);
 	//pass in the callback you want called when using the getGeoData method
-	this.geo = new GeoCodeInterface({
-		callback:this.updateInputs
-	});
+	this.geo = new GeoCodeInterface();
 	//this method is not necessary it just allwos you to easily attach the keyboard listener that I am using to any input you want
 	this.initPostalListener(this.postCodeInput);
 	this.initKeyBoardListener(this.apiKeyInput);

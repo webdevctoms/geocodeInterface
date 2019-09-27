@@ -1,5 +1,5 @@
-function GeoCodeInterface(options){
-	this.timeout;
+function GeoCodeInterface(){
+
 }
 //implemented this way return a promise
 GeoCodeInterface.prototype.getGeoData = function(postalCode,apiKey,country) {
@@ -17,10 +17,6 @@ GeoCodeInterface.prototype.getGeoData = function(postalCode,apiKey,country) {
 	return $.ajax(settings);
 };
 
-GeoCodeInterface.prototype.setAPIKey = function(apiKey) {
-	//console.log('setting data',apiKey);
-	this.apiKey = apiKey;
-};
 /*
 pass in the address_components data and what you want to find
 types can be city,state,province, or country
