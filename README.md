@@ -15,4 +15,6 @@ In the example the method is handled by a keyup event and a button click event. 
 
 From there you can handle the results yourself or you can use the second method .getAddressData. This method takes in the address_components array from the geolocation data and a location type. The location type is a string and can be city,state,province, or country. The method will return a object that contains the google short name and long name for the specified location type. One note is that this expects only the address_components of the correct result. In most cases this will be the first returned result. If it is not this is where the country and postal code can be used together to narrow down the results
 
-Using this last method is optional but will make parsing the results easier. 
+Using this last method is optional but will make parsing the results easier.
+
+How you store and pass the API key is up to you. The only reason I have it as a field here is so that I do not need to share my API key on the github repo.
