@@ -1,7 +1,7 @@
 function GeoCodeInterface(){
 
 }
-//implemented this way return a promise
+//implemented this way to return a promise
 GeoCodeInterface.prototype.getGeoData = function(postalCode,apiKey,country) {
 	//country is optional
 	if(country === undefined){
