@@ -11,21 +11,9 @@ function App(options){
 	this.geo = new GeoCodeInterface();
 	//this method is not necessary it just allwos you to easily attach the keyboard listener that I am using to any input you want
 	this.initPostalListener(this.postCodeInput);
-	this.initKeyBoardListener(this.apiKeyInput);
 	this.initButton(this.exampleButton);
 }
 
-App.prototype.initKeyBoardListener = function(input) {
-	input.addEventListener("keyup",function(e){
-		var apiKey = e.currentTarget.value;
-		this.geo.setAPIKey(apiKey);
-	}.bind(this),false);
-
-	input.addEventListener("change",function(e){
-		var apiKey = e.currentTarget.value;
-		this.geo.setAPIKey(apiKey);
-	}.bind(this),false);
-};
 //Follow this structure to avoid issues with the scope of the 'this' variable
 App.prototype.initPostalListener = function(input) {
 	input.addEventListener("keyup",function(e){
@@ -41,6 +29,11 @@ App.prototype.initPostalListener = function(input) {
 
 			.then((data) => {
 				this.updateInputs(data);
+			})
+
+			.catch(err => {
+				//handle error
+				console.log(err);
 			});
 		}.bind(this), 3000);
 	}.bind(this),false);
@@ -59,6 +52,10 @@ App.prototype.initPostalListener = function(input) {
 
 			.then((data) => {
 				this.updateInputs(data);
+			})
+			.catch(err => {
+				//handle error
+				console.log(err);
 			});
 		}.bind(this), 3000);
 	}.bind(this),false);
@@ -76,6 +73,10 @@ App.prototype.initButton = function(button){
 
 		.then((data) => {
 			this.updateInputs(data);
+		})
+		.catch(err => {
+			//handle error
+			console.log(err);
 		});
 	}.bind(this),false);
 };
