@@ -32,9 +32,30 @@ App.prototype.initPostalListener = function(input) {
 		console.log(e.currentTarget.value);
 		clearTimeout(this.timeout);
 		var postalCode = e.currentTarget.value;
-		var apiKey = this.apiKeyInput.value
+		var apiKey = this.apiKeyInput.value;
+		var country = this.countryInput.value;
 		this.timeout = setTimeout(function(){ 
-			this.geo.getGeoData(postalCode,apiKey,this.updateInputs)
+			//country is optional
+			//really only need country for international postal codes
+			this.geo.getGeoData(postalCode,apiKey,country)
+
+			.then((data) => {
+				this.updateInputs(data);
+			});
+		}.bind(this), 3000);
+	}.bind(this),false);
+	/*
+	this is optional this will call the event on unfocus it will mostly just catch
+	someone pasting something in
+	*/
+	input.addEventListener("blur",function(e){
+		console.log(e.currentTarget.value);
+		clearTimeout(this.timeout);
+		var postalCode = e.currentTarget.value;
+		var apiKey = this.apiKeyInput.value
+		var country = this.countryInput.value;
+		this.timeout = setTimeout(function(){
+			this.geo.getGeoData(postalCode,apiKey,country)
 
 			.then((data) => {
 				this.updateInputs(data);
@@ -47,11 +68,21 @@ App.prototype.updateInputs = function(data) {
 	console.log('data:',data,this.cityInput);
 	//get the address components from the results
 	var address_components = data.results[0].address_components;
-	//get the city from the results
+	//get the city Object from the results
+	//may need to be adjusted for international addreses
 	var cityNameObject = this.geo.getAddressData(address_components,'city');
 	//set the address name to your input of choice
 	this.cityInput.value = cityNameObject.long_name;
-	//get the 
+	//get the state/province
+	var stateObject = this.geo.getAddressData(address_components,'state');
+	//set the state names 
+	this.stateInput.value = stateObject.long_name;
+	this.stateShortInput.value = stateObject.short_name;
+	//get the country
+	var countryObject = this.geo.getAddressData(address_components,'country');
+	//set the state names 
+	this.countryInput.value = countryObject.long_name;
+	this.countryShortInput.value = countryObject.short_name;
 };
 
 var app = new App({
