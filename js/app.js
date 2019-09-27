@@ -6,6 +6,7 @@ function App(options){
 	this.stateInput = document.getElementById(options.stateId);
 	this.stateShortInput = document.getElementById(options.stateShortId);
 	this.cityInput = document.getElementById(options.cityId);
+	this.exampleButton = document.getElementById(options.exampleButtonId);
 	//pass in the callback you want called when using the getGeoData method
 	this.geo = new GeoCodeInterface({
 		callback:this.updateInputs
@@ -13,6 +14,7 @@ function App(options){
 	//this method is not necessary it just allwos you to easily attach the keyboard listener that I am using to any input you want
 	this.initPostalListener(this.postCodeInput);
 	this.initKeyBoardListener(this.apiKeyInput);
+	this.initButton(this.exampleButton);
 }
 
 App.prototype.initKeyBoardListener = function(input) {
@@ -64,6 +66,22 @@ App.prototype.initPostalListener = function(input) {
 	}.bind(this),false);
 };
 
+//example using a button
+App.prototype.initButton = function(button){
+	button.addEventListener("click",function(e){
+		e.preventDefault();
+		clearTimeout(this.timeout);
+		var postalCode = this.postCodeInput.value;
+		var apiKey = this.apiKeyInput.value
+		var country = this.countryInput.value;
+		this.geo.getGeoData(postalCode,apiKey,country)
+
+		.then((data) => {
+			this.updateInputs(data);
+		});
+	}.bind(this),false);
+};
+
 App.prototype.updateInputs = function(data) {
 	console.log('data:',data,this.cityInput);
 	//get the address components from the results
@@ -85,6 +103,8 @@ App.prototype.updateInputs = function(data) {
 	this.countryShortInput.value = countryObject.short_name;
 };
 
+
+
 var app = new App({
 	apiKeyId:'api-key',
 	postCodeId:'postal-code',
@@ -92,5 +112,6 @@ var app = new App({
 	countryShortId:'country-short',
 	stateId:'state',
 	stateShortId:'state-short',
-	cityId:'city'
+	cityId:'city',
+	exampleButtonId:'example-button'
 });
