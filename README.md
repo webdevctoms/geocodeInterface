@@ -1,7 +1,7 @@
 # Geocode Interface
 
 ## Demo
-<a href="https://webdevctoms.github.io/geocodeInterface/" target="_blank">GeoCode Interface</a>
+https://webdevctoms.github.io/geocodeInterface/
 
 ##Intro
 The geocodeInterface.js file contains a class which will allow you to make requests to the google maps geocoding API by passing postal code, api key, and optionally country. The app.js file shows how the class/methods can be used.
