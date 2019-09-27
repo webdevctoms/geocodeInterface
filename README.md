@@ -18,3 +18,5 @@ From there you can handle the results yourself or you can use the second method 
 Using this last method is optional but will make parsing the results easier.
 
 How you store and pass the API key is up to you. The only reason I have it as a field here is so that I do not need to share my API key on the github repo.
+
+to use this class in your code just copy the contents of the geocodeInterface.js file or copy it save it and include the file in your project.
