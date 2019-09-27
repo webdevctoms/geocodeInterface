@@ -1,1 +1,5 @@
-console.log('test');
+function App(){
+
+}
+
+let app = new App();
